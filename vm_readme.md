@@ -3,11 +3,11 @@ A minimal VirtualBox wrapper
 
 # Setup
 * Have a VM with an ssh server running.
-* It must be configured with a port forward rule for some port on host to the ssh
-    port on guest.
+* It must be configured with a port forward rule for some port on host to the
+  ssh port on guest.
 * The very first usbfilter rule must be the one you want to toggle. Typically
-    this is generic and matches all USB ports, essentially letting you switch
-    all ports between host and guest.
+  this is generic and matches all USB ports, essentially letting you switch all
+  ports between host and guest.
 
 ## Update script's configuration variables...
 * user    - The user to SSH as
