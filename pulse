@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ $# -ne 0 ]; then
+    echo "Usage: pulse" >&2
+fi
+
+pulse_daemon=/Applications/Pulse\ Secure.app/Contents/Plugins/JamUI/PulseTray.app
+
+if [ ! -d "$pulse_daemon" ]; then
+    echo "Error: Pulse Secure isn't installed on this Mac." >&2
+    exit 1
+fi
+open "$pulse_daemon" --args KeepAlive Disabled
