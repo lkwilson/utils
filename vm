@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# VM Configuration
+user=op         # The user to log in as
+target=Ubuntu   # the name of VirtualBox VM
+port=3001       # the port on host which forwards to ssh port on guest
+
+# Start VM
+function start {
+    echo "Starting VM"
+    VBoxManage startvm "$target" --type headless
+}
+# Stop VM
+function stop {
+    echo "Powering off $target"
+    VBoxManage controlvm "$target" acpipowerbutton
+}
+# Save VM
+function save {
+    echo "Saving VM"
+    VBoxManage controlvm "$target" --type savestate
+}
+# Get the port which forwards to guest ssh port of VM
+function port {
+    echo "Port: $port"
+}
+# Print VMs
+function list {
+    VBoxManage list vms
+}
+# Print running VMs
+function stat {
+    VBoxManage list runningvms
+}
+# Set USB status
+function usb {
+    # usage
+    if [ $# -ne 1 ]; then
+        echo "Usage: usb {on|off}" >&2
+        exit 1
+    fi
+    # switch usb
+    if [ "$1" = "on" ]; then 
+        echo "USB ports attached to VM."
+        VBoxManage usbfilter modify 0 --target "$target" --active yes
+    elif [ "$1" = "off" ]; then
+        echo "USB ports attached to host."
+        VBoxManage usbfilter modify 0 --target "$target" --active no
+    else
+        echo "Usage: usb {on|off}" >&2
+        exit 1
+    fi
+}
+# Connect to VM
+# Naming this function ssh would cause recursion. I don't want to overload ssh.
+function sshvm {
+    ssh -p $port "$user"@localhost "$@"
+}
+
+# Usage
+function usage {
+    echo "Usage: ${0##*/} {start|stop|save|port|list|stat|usb|ssh}" >&2
+    exit 1
+}
+# Assert no args
+function noarg {
+    [ $# -ne 0 ] && usage
+}
+# Pop command
+cmd="$1"
+shift
+# Execute command
+case "$cmd" in
+    start) "$cmd"  "$@";;
+    stop)  "$cmd"  "$@";;
+    save)  "$cmd"  "$@";;
+    port)  "$cmd"  "$@";;
+    list)  "$cmd"  "$@";;
+    stat)  "$cmd"  "$@";;
+    usb)   "$cmd"  "$@";;
+    ssh)   sshvm   "$@";; # ssh calls sshvm function
+    *)     usage;;
+esac
