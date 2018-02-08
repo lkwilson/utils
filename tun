@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Creating tunnel on port 8123"
+ssh -D 8123 -f -C -q -N core
+echo "Kill this process to close"
+ps aux | grep ssh | grep 8123
