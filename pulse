@@ -4,6 +4,8 @@ if [ $# -ne 0 ]; then
     echo "Usage: pulse" >&2
 fi
 
+# Delete /Library/LaunchAgents/*pulse secure* for setup
+
 pulse_daemon=/Applications/Pulse\ Secure.app/Contents/Plugins/JamUI/PulseTray.app
 
 if [ ! -d "$pulse_daemon" ]; then
