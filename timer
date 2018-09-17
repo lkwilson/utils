@@ -63,7 +63,7 @@ max=$min
 echo "Timer for $max minutes"
 echo "Begin"
 while ((--min >= 0)); do
-    #sleep 60
+    sleep 60
     echo $((max - min))
 done
 echo "Timer complete"
