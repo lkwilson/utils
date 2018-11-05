@@ -2,4 +2,8 @@
 
 echo "Created tunnel on port 8123"
 # core defined in .ssh/config
-ssh -D 8123 -N core
+ssh -D 8123 -C -N core
+# -D port
+# -C compress data
+# -N no command
+# -q quiet mode
