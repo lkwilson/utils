@@ -7,3 +7,7 @@ ssh -D 8123 -C -N core
 # -C compress data
 # -N no command
 # -q quiet mode
+# -L bind address localhost:8888:localhost:8889
+
+# For example: use this for jupyter notebook forwarding
+# ssh -N -C -L localhost:8888:localhost:8889 core
