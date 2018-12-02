@@ -1,13 +1,15 @@
 #!/bin/bash
 
-echo "Created tunnel on port 8123"
-# core defined in .ssh/config
-ssh -D 8123 -C -N core
-# -D port
-# -C compress data
-# -N no command
-# -q quiet mode
-# -L bind address localhost:8888:localhost:8889
-
-# For example: use this for jupyter notebook forwarding
-# ssh -N -C -L localhost:8888:localhost:8889 core
+echo to reated tunnel on port 8123
+echo core defined in .ssh/config
+echo
+echo ssh -D 8123 -C -N core
+echo -D port
+echo -C compress data
+echo -N no command
+echo -q quiet mode
+echo -L bind address localhost:8888:localhost:8889
+echo
+echo For example: use this for jupyter notebook forwarding
+echo jupyter-notebook --no-browser --port localhost:888
+echo ssh -N -C -L localhost:8888:localhost:8888 core
