@@ -1,4 +1,9 @@
-TEMPFILE="$(mktemp -u)"
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RootPasswd';" >> "$TEMPFILE"
-mysql.server start --init-file="$TEMPFILE"
-rm -f ${TEMPFILE}
+#!/bin/bash
+
+tempfile="$(mktemp -u)"
+echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'rpwd';" > "$tempfile"
+mysql.server stop &>/dev/null&
+mysqld --init-file="$tempfile" &>/dev/null&
+sleep 1
+rm -f ${tempfile}
+ps aux | grep mysqld | grep -v grep
