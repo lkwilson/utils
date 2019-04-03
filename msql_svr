@@ -1,0 +1,4 @@
+TEMPFILE="$(mktemp -u)"
+echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RootPasswd';" >> "$TEMPFILE"
+mysql.server start --init-file="$TEMPFILE"
+rm -f ${TEMPFILE}
