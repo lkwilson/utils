@@ -5,6 +5,10 @@ if [ $# -ne 0 ]; then
 fi
 
 # Delete /Library/LaunchAgents/*pulse secure* for setup
+if [ -f /Library/LaunchAgents/net.pulsesecure.pulsetray.plist ]; then
+    echo "Removing auto start daemon"
+    sudo rm -rf /Library/LaunchAgents/net.pulsesecure.pulsetray.plist
+fi
 
 pulse_daemon=/Applications/Pulse\ Secure.app/Contents/Plugins/JamUI/PulseTray.app
 

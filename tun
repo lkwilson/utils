@@ -4,12 +4,15 @@ echo to reated tunnel on port 8123
 echo core defined in .ssh/config
 echo
 echo ssh -D 8123 -C -N core
-echo -D port
+echo -D port ?? don\'t use this
 echo -C compress data
-echo -N no command
+echo -N no command - don\'t enter command mode
 echo -q quiet mode
-echo -L bind address localhost:8888:localhost:8889
+echo -L bind address localhost:8000:secure-server:22 entrypt
 echo
 echo For example: use this for jupyter notebook forwarding
 echo jupyter-notebook --no-browser --port localhost:888
-echo ssh -N -C -L localhost:8888:localhost:8888 core
+echo ssh -N -L localhost:8888:localhost:8888 core
+
+echo for accessing things behind firewalls, use
+echo ssh -N -L localhost:local-port:secure-server:remote-port remote-server
