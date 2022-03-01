@@ -4,12 +4,13 @@ current_contrib = 0
 remaining_paychecks = 12
 salary = 40_000
 paycheck_amount = salary / 12
-bonus_amount = 0.04 * salary
+bonus_potential_amount = 0.04 * salary
 
-max_401k_limit = 19_500
+max_401k_limit = 20_500
 match_rate = 0.06
 
 bonus_potential_is_before_last_paycheck = True
+assume_max_bonus = True
 
 contrib_rates = np.arange(match_rate, .60, .005)
 
@@ -21,7 +22,7 @@ def final_contrib_rate(rate, verbose = False):
   if verbose:
     print(f"contrib per paycheck: {contrib_per_paycheck:.2f}")
 
-  bonus_contrib = bonus_amount * rate
+  bonus_contrib = bonus_potential_amount * rate
   if verbose:
     print(f"bonus contributed to 401k: {bonus_contrib:.2f}")
 
@@ -46,7 +47,7 @@ def final_contrib_rate(rate, verbose = False):
   if verbose:
     print(f"last contrib rate (bonus before): {last_rate_pre_bonus*100:.2f}%")
 
-  last_rate_post_bonus = remaining / (paycheck_amount + bonus_amount)
+  last_rate_post_bonus = remaining / (paycheck_amount + bonus_potential_amount)
   if verbose:
     print(f"last contrib rate (bonus after): {last_rate_post_bonus*100:.2f}%")
 
@@ -54,12 +55,20 @@ def final_contrib_rate(rate, verbose = False):
   if verbose:
     print(f"last contrib rate (no bonus): {last_rate_no_bonus*100:.2f}%")
 
-  if bonus_potential_is_before_last_paycheck:
-    min_rate = min(last_rate_pre_bonus, last_rate_no_bonus)
-    max_rate = max(last_rate_pre_bonus, last_rate_no_bonus)
+  if assume_max_bonus:
+    if bonus_potential_is_before_last_paycheck:
+      min_rate = last_rate_pre_bonus
+      max_rate = last_rate_pre_bonus
+    else:
+      min_rate = min(last_rate_pre_bonus, last_rate_post_bonus)
+      max_rate = max(last_rate_pre_bonus, last_rate_post_bonus)
   else:
-    min_rate = min(last_rate_pre_bonus, last_rate_post_bonus, last_rate_no_bonus)
-    max_rate = max(last_rate_pre_bonus, last_rate_post_bonus, last_rate_no_bonus)
+    if bonus_potential_is_before_last_paycheck:
+      min_rate = min(last_rate_pre_bonus, last_rate_no_bonus)
+      max_rate = max(last_rate_pre_bonus, last_rate_no_bonus)
+    else:
+      min_rate = min(last_rate_pre_bonus, last_rate_post_bonus, last_rate_no_bonus)
+      max_rate = max(last_rate_pre_bonus, last_rate_post_bonus, last_rate_no_bonus)
 
   if verbose:
     print(f"possible rate range: {min_rate*100:.2f}% - {max_rate*100:.2f}%")
