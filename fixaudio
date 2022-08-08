@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Used on mac to restart the audio driver (it crashes sometimes, and I don't
-# want to reboot).
-
-sudo killall coreaudiod
